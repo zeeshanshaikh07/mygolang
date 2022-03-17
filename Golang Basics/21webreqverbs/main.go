@@ -9,13 +9,13 @@ import (
 )
 
 func main() {
-	fmt.Println("Welcome to web verb video - LCO")
-	//PerformGetRequest()
+	fmt.Println("welcome to web verb")
+	// PerformGetRequest()
 	// PerformPostJsonRequest()
 	PerformPostFormRequest()
 }
 
-func PerformGetRequest() {
+func PerformGetRequest()  {
 	const myurl = "http://localhost:8000/get"
 
 	response, err := http.Get(myurl)
@@ -25,21 +25,15 @@ func PerformGetRequest() {
 
 	defer response.Body.Close()
 
-	fmt.Println("Status code: ", response.StatusCode)
+	fmt.Println("status code: ", response.StatusCode)
 	fmt.Println("Content length is: ", response.ContentLength)
 
-	var responseString strings.Builder
 	content, _ := ioutil.ReadAll(response.Body)
-	byteCount, _ := responseString.Write(content)
 
-	fmt.Println("ByteCount is: ", byteCount)
-	fmt.Println(responseString.String())
-
-	//fmt.Println(content)
-	//fmt.Println(string(content))
+	fmt.Println(string(content))
 }
 
-func PerformPostJsonRequest() {
+func PerformPostJsonRequest(){
 	const myurl = "http://localhost:8000/post"
 
 	//fake json payload
@@ -47,41 +41,39 @@ func PerformPostJsonRequest() {
 	requestBody := strings.NewReader(`
 		{
 			"coursename":"Let's go with golang",
-			"price": 0,
-			"platform":"learnCodeOnline.in"
+			"price":0,
+			"platform":"youtube.com"
 		}
 	`)
 
 	response, err := http.Post(myurl, "application/json", requestBody)
-
 	if err != nil {
 		panic(err)
 	}
 	defer response.Body.Close()
-
+	
 	content, _ := ioutil.ReadAll(response.Body)
 
 	fmt.Println(string(content))
 }
 
-func PerformPostFormRequest() {
+func PerformPostFormRequest(){
 	const myurl = "http://localhost:8000/postform"
 
 	//formdata
 
 	data := url.Values{}
-	data.Add("firstname", "zeeshan")
-	data.Add("lastname", "shaikh")
+	data.Add("firstname", "Zeeshan")
+	data.Add("lastname", "Shaikh")
 	data.Add("email", "zeeshan@go.dev")
 
 	response, err := http.PostForm(myurl, data)
 	if err != nil {
 		panic(err)
 	}
-
 	defer response.Body.Close()
 
 	content, _ := ioutil.ReadAll(response.Body)
-	fmt.Println(string(content))
 
+	fmt.Println(string(content))
 }
